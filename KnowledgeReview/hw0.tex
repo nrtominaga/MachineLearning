@@ -1,0 +1,235 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+
+\newcommand{\semester}{Fall 2021}
+\newcommand{\assignmentId}{0}
+\newcommand{\releaseDate}{24 Aug, 2021}
+\newcommand{\dueDate}{11:59pm, 3 Sep, 2021}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\footnotesize
+	\begin{itemize}
+		\item You are welcome to talk to other members of the class about
+		the homework. I am more concerned that you understand the
+		underlying concepts. However, you should write down your own
+		solution. Please keep the class collaboration policy in mind.
+		
+		\item Feel free to discuss the homework with the instructor or the TAs.
+		
+		\item Your written solutions should be brief and clear. You need to
+		show your work, not just the final answer, but you do \emph{not}
+		need to write it in gory detail. Your assignment should be {\bf no
+			more than 10 pages}. Every extra page will cost a point.
+		
+		\item Handwritten solutions will not be accepted.
+		
+		\item The homework is due by \textbf{midnight of the due date}. Please submit
+		the homework on \textbf{Canvas}.
+		
+		\item Some questions are marked {\bf For 6350 students}. Students
+		who are registered for CS 6350 should do these questions. Of
+		course, if you are registered for CS 5350, you are welcome to do
+		the question too, but you will not get any credit for it.
+		
+	\end{itemize}
+
+
+
+\section*{Basic Knowledge Review}
+\label{sec:q1}
+\begin{enumerate}
+\item~[5 points] We use sets to represent events. For example, toss a fair coin $10$ times, and the event can be represented by the set of ``Heads" or ``Tails" after each tossing. Let a specific event $A$ be ``at least one head". Calculate the probability that event $A$ happens, i.e., $p(A)$.
+\newline\newline
+Let $A^c$ be the complement of A i.e. $A^c$ is the event "getting 0 heads".  There is only one way of getting 0 heads, which is if you got all tails, and we also know that there are $2^{10}$ possible combinations of heads and tails when a coin is flipped $10$ times.  Therefore by the complement rule:\newline
+\[p(A) = 1 - p(A^c)\]\newline
+\[p(A) = 1 - \frac{1}{2^{10}} = .9990\]
+\newline
+\newline
+\item~[10 points] Given two events $A$ and $B$, prove that 
+\[
+p(A \cup B) \le p(A) + p(B).
+\]
+\newline
+We are given the equation $p(A \cup B) = p(A) + p(B) - p(A \cap B)$. \[
+p(A) + p(B) - p(A \cap B) \le p(A) + p(B)
+\]
+Subtract $p(A) + p(B)$ from both sides gives you
+\[
+-p(A \cap B) \le 0
+\]
+We know that $p(A \cap B) \ge 0$ so the comparison holds.
+\newline\newline
+When does the equality hold?\newline\newline
+The equality holds when $p(A \cap B) = 0$ i.e. when the two events are independent.
+\item~[10 points] Let $\{A_1, \ldots, A_n\}$ be a collection of events. Show that
+\[
+p(\cup_{i=1}^n A_i) \le \sum_{i=1}^n p(A_i).
+\]
+When does the equality hold? (Hint: induction)\newline\newline
+We have solved the base case above in \#2.  We assume $p(\cup_{i=1}^n A_i) \le \sum_{i=1}^n p(A_i)$ is correct.  We must prove $p(\cup_{i=1}^{n+1} A_i) \le \sum_{i=1}^{n+1} p(A_i)$
+\[p(\cup_{i=1}^n A_i \cup A_{n+1}) \le \sum_{i=1}^{n+1} p(A_i)\]
+\[p(\cup_{i=1}^n A_i) + p(A_{n+1}) - p(\cup_{i=1}^n A_i \cap A_{n+1}) \le \sum_{i=1}^n p(A_i) + p(A_{n+1})\]
+Since we know $p(\cup_{i=1}^n A_i) \le \sum_{i=1}^n p(A_i)$ and $p(A_{n+1}) - p(\cup_{i=1}^n A_i \cap A_{n+1}) \le p(A_{n+1})$ it must be true that $p(\cup_{i=1}^{n+1} A_i) \le \sum_{i=1}^{n+1} p(A_i)$.  The equality holds when all events are independent.
+%\item~[5 points] Given three events $A$, $B$ and $C$, show that
+%\[
+%p(A\cap B\cap C) = p(A|B\cap C)p(B|C)p(C)
+%\]
+\item~[20 points]  We use $\EE(\cdot)$ and $\VV(\cdot)$ to denote a random variable's mean (or expectation) and variance, respectively. Given two discrete random variables $X$ and $Y$, where $X \in \{0, 1\}$ and $Y \in \{0,1\}$. The joint probability $p(X,Y)$ is given in as follows:
+\begin{table}[h]
+        \centering
+        \begin{tabular}{ccc}
+        \hline\hline
+         & $Y=0$ & $Y=1$ \\ \hline
+         $X=0$ & $1/10$ & $2/10$ \\ \hline
+         $X=1$  & $3/10$ & $4/10$ \\ \hline\hline
+        \end{tabular}
+        %\caption{Training data for the alien invasion problem.}\label{tb-alien-train}
+        \end{table}
+	
+        \begin{enumerate}
+            \item~[10 points] Calculate the following distributions and statistics. 
+            \begin{enumerate}
+            \item the the marginal distributions $p(X)$ and $p(Y)$\newline
+            \[p(X = 0) = \frac{1}{10} + \frac{2}{10} = \frac{3}{10}\]\newline
+            \[p(X = 1) = \frac{3}{10} + \frac{4}{10} = \frac{7}{10}\]\newline
+            \[p(Y = 0) = \frac{1}{10} + \frac{3}{10} = \frac{4}{10}\]\newline
+            \[p(Y = 1) = \frac{2}{10} + \frac{4}{10} = \frac{6}{10}\]
+            \item the conditional distributions $p(X|Y)$ and $p(Y|X)$
+            \[p(X = 0|Y = 0) = \frac{p(X = 0 \cap Y = 0)}{p(Y = 0)} = \frac{1}{4}\]\newline
+            \[p(X = 1|Y = 0) = \frac{p(X = 1 \cap Y = 0)}{p(Y = 0)} = \frac{3}{4}\]\newline
+            \[p(X = 0|Y = 1) = \frac{p(X = 0 \cap Y = 1)}{p(Y = 1)} = \frac{1}{3}\]\newline
+            \[p(X = 1|Y = 1) = \frac{p(X = 1 \cap Y = 1)}{p(Y = 1)} = \frac{2}{3}\]\newline
+            \[p(Y = 0|X = 0) = \frac{p(Y = 0 \cap X = 0)}{p(X = 0)} = \frac{1}{3}\]\newline
+            \[p(Y = 1|X = 0) = \frac{p(Y = 1 \cap X = 0)}{p(X = 0)} = \frac{2}{3}\]\newline
+            \[p(Y = 0|X = 1) = \frac{p(Y = 0 \cap X = 1)}{p(X = 1)} = \frac{3}{7}\]\newline
+            \[p(Y = 1|X = 1) = \frac{p(Y = 1 \cap X = 1)}{p(X = 1)} = \frac{4}{7}\]\newline
+            \item $\EE(X)$, $\EE(Y)$, $\VV(X)$, $\VV(Y)$
+            \[\EE(X) = 0*\frac{3}{10} + 1*\frac{7}{10} = \frac{7}{10}\]\newline
+            \[\EE(Y) = 0*\frac{4}{10} + 1*\frac{6}{10} = \frac{6}{10}\]\newline
+            \[\VV(X) = \EE(X^2) - \EE(X)^2 = \frac{7}{10} - \frac{49}{100} = \frac{21}{100}\]\newline
+            \[\VV(Y) = \EE(Y^2) - \EE(Y)^2 = \frac{6}{10} - \frac{36}{100} = \frac{24}{100}\]\newline
+            \item  $\EE(Y|X=0)$, $\EE(Y|X=1)$,  $\VV(Y|X=0)$, $\VV(Y|X=1)$ 
+            \[\EE(Y|X = 0) = 0 * \frac{1}{3} + 1 * \frac{2}{3} = \frac{2}{3}\]\newline
+            \[\EE(Y|X = 1) = 0 * \frac{3}{7} + 1 * \frac{4}{7} = \frac{4}{7}\]\newline
+            \[\VV(Y|X = 0) = \EE(Y^2|X = 0) - \EE(Y|X = 0)^2 = \frac{2}{3} - \frac{4}{9} = \frac{2}{9}\]\newline
+            \[\VV(Y|X = 1) = \EE(Y^2|X = 1) - \EE(Y|X = 1)^2 = \frac{4}{7} - \frac{16}{49} = \frac{12}{49}\]\newline
+            \item  the covariance between $X$ and $Y$
+            \[Cov(X, Y) = \EE(XY) - E(X)E(Y)\]\newline
+            \[= \frac{4}{10} - \frac{7}{10} * \frac{6}{10} = -\frac{2}{100} = -\frac{1}{50}\]
+            \end{enumerate}
+            \item~[5 points] Are $X$ and $Y$ independent? Why?\newline
+            $p(X|Y) = \frac{2}{3}$ and $p(X) = \frac{7}{10}$ are not equal therefore they are not independent.
+            \item~[5 points] When $X$ is not assigned a specific value, are $\EE(Y|X)$ and $\VV(Y|X)$ still constant? Why?\newline
+            No.  The R.V. $X$ and $Y$ are dependent so $\EE(Y|X)$ and $\VV(Y|X)$ will be different based on the value of $X$.
+        \end{enumerate}
+\item~[10 points] Assume a random variable $X$ follows a standard normal distribution, \ie $X \sim \N(X|0, 1)$. Let $Y = e^X$. Calculate the mean and variance of $Y$.
+\begin{enumerate}
+	\item $\EE(Y)$ \newline
+	\[\EE(Y) = \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}e^xdx\]
+	\[=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{2x-x^2}{2}+\frac{1}{2}-\frac{1}{2}}dx\]
+	\[=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{-(x^2-2x+1)}{2}}e^{\frac{1}{2}}dx\]
+	\[=\frac{e^{\frac{1}{2}}}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{-(x-1)^2}{2}}dx\]
+	The above integral takes the form of the Guassian integral: $\int_{-\infty}^{\infty}e^{-a(x+b)^2}dx = \sqrt{\frac{\pi}{a}}$
+	\[=\frac{e^{1/2}}{\sqrt{2\pi}}\sqrt{2\pi} = \sqrt{e}\]
+	\item $\VV(Y)$
+	\[\EE(Y^2) = \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}e^{2x}dx\]
+	\[=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{4x-x^2}{2}+\frac{4}{2}-\frac{4}{2}}dx\]
+	\[=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{-(x^2-4x+4)}{2}}e^2dx\]
+	\[=\frac{e^2}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{\frac{-(x-2)^2}{2}}dx = \frac{e^2}{\sqrt{2\pi}}\sqrt{2\pi} = e^2\]
+	\[\VV(Y) = E(Y^2) - E(Y)^2 = e^2 - e\]
+\end{enumerate}
+
+\item  Given two random variables $X$ and $Y$, show that 
+\begin{enumerate}
+\item~[20 points] $\EE(\EE(Y|X)) = \EE(Y)$\newline
+$f_X(x)$ is the pdf for random variable $X$, $f_Y(y)$ is the pdf for random variable $Y$, etc.
+\[\EE(\EE(Y|X)) = \int_xE(Y|X)f_X(x)dx\]
+\[= \int_x f_X(x) \int_y yf_{Y|X}(y|x)dydx\]
+\[= \int_x f_X(x) \int_y y\frac{f_{X,Y}(x,y)}{f_X(x)}dydx\]
+\[= \int_x \frac{f_X(x)}{f_X(x)} \int_y yf_{X,Y}(x,y)dydx\]
+\[= \int_x \int_y yf_{X,Y}(x,y)dydx = \int_y y \int_x f_{X,Y}(x,y) dxdy\]
+\[= \int_y yf_Y(y) dy = E(Y)\]
+\item~[\textbf{Bonus question} 20 points]
+$\VV(Y) = \EE(\VV(Y|X)) + \VV(\EE(Y|X))$
+\[\VV(Y) = \EE(Y^2) - \EE(Y)^2\]
+Applying the proof from above to each term gives:
+\[= \EE(\EE(Y^2|X)) - \EE(\EE(Y|X))^2\]
+We know that $\VV(Y|X) = \EE(Y^2|X) - \EE(Y|X)^2$ therefore:
+\[= \EE(\VV(Y|X) + \EE(Y|X)^2) - \EE(\EE(Y|X))^2\]
+\[= \EE(\VV(Y|X)) + \EE(\EE(Y|X)^2) - \EE(\EE(Y|X))^2\]
+\[= \EE(\VV(Y|X)) + (\EE(\EE(Y|X)^2) - \EE(\EE(Y|X))^2)\]
+\[= \EE(\VV(Y|X)) + \VV(\EE(Y|X))\]
+\end{enumerate}
+(Hints: using definition.)
+
+%\item~[20 points]  Let us go back to the coin tossing example. Suppose we toss a coin for $n$ times, \textit{independently}. Each toss we have $\frac{1}{2}$ chance to obtain the head. Let us denote the total number of heads by $c(n)$. Derive the following statistics. You don't need to give the numerical values. You only need to provide the formula.
+%\begin{enumerate}
+%\item $\EE(c(1))$, $\VV(c(1))$
+%\item $\EE(c(10))$, $\VV(c(10))$
+%\item $\EE(c(n))$, $\VV(c(n))$
+%\end{enumerate} 
+%What can you conclude from comparing the expectations and variances with different choices of $n$?  
+
+\item~[15 points] Given a logistic function, $f(\x) = 1/(1+\exp(-\a^\top \x))$ ($\x$ is a vector), derive/calculate the following gradients and Hessian matrices.  
+\begin{enumerate}
+\item $\nabla f(\x) = [\frac{a_1exp(-\a^\top\x)}{(1+exp(-\a^\top\x))^2}, \frac{a_2exp(-\a^\top\x)}{(1+exp(-\a^\top\x))^2}, \dots, \frac{a_nexp(-\a^\top\x)}{(1+exp(-\a^\top\x))^2}]$
+\item $\nabla^2 f(\x) = $ n x n matrix $H$ where each entry in the matrix is:
+\[H_{ij} = \frac{\partial^2f}{\partial x_i\partial x_j} = \frac{2a_ia_jexp(-\a^\top\x)}{(1+\exp(-\a^\top \x))^3} - \frac{a_ia_jexp(-\a^\top\x)}{(1+\exp(-\a^\top \x))^2}\]
+\item $\nabla f(\x)$ when $\a = [1,1,1,1,1]^\top$ and $\x = [0,0,0,0,0]^\top$
+\[=[\frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4}]\]
+\item $\nabla^2 f(\x)$  when $\a = [1,1,1,1,1]^\top$ and $\x = [0,0,0,0,0]^\top$
+\[H = \begin{bmatrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+\end{bmatrix}\]
+\end{enumerate}
+Note that $0 \le f(\x) \le 1$.
+
+\item~[10 points] Show that $g(x) = -\log(f(\x))$ where $f(\x)$ is a logistic function defined as above, is convex.\newline
+\[\nabla g(\x) = -(1+\exp(-\a^\top \x))\frac{\a \exp(-\a^\top \x)}{(1+\exp(-\a^\top \x))^2}\]
+\[= -\a \frac{1 + \exp(-\a^\top \x) - 1}{1+\exp(-\a^\top \x)}\]
+\[= -\a (\frac{1 + \exp(-\a^\top \x)}{1+\exp(-\a^\top \x)} - \frac{1}{1+\exp(-\a^\top \x)})\]
+\[= -\a (1 - f)\]
+$\nabla^2 g = $ n x n matrix $H$ where each entry in the matrix is:
+\[H_{ij} = \frac{\partial^2g}{\partial x_i \partial x_j} = \frac{\partial}{\partial x_j}(-a_i (1 - f))\]
+\[= \frac{\partial}{\partial x_j} (\frac{a_i}{1+\exp(-\a^\top \x)})\]
+\[= a_i a_j \frac{\exp(-\a^\top \x)}{(1+\exp(-\a^\top \x))^2}\]
+\[= a_i a_j \frac{1 + \exp(-\a^\top \x) - 1}{(1+\exp(-\a^\top \x))^2}\]
+\[= a_i a_j \frac{1}{1+\exp(-\a^\top \x)} - \frac{1}{(1+\exp(-\a^\top \x))^2}\]
+\[= a_i a_j (f - f^2)\]
+\[= a_i a_j f (1 - f)\]
+Therefore the matrix $H = \a \a^\top f(1 - f)$.  To prove that $g$ is convex we must prove that $\x ^\top H \x \geq 0$ where $\x \in \R^n$
+\[\x \top H \x = \x ^\top \a \a^\top f(1 - f) \x\]
+\[=  \x ^\top \a \a^\top \x f(1 - f)\]
+\[= (\x ^\top \a)^2 f(1 - f)\]
+$(\x ^\top \a)^2$ and $f(1 - f)$ are positive therefore $g$ is convex.
+ 
+
+\end{enumerate}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
