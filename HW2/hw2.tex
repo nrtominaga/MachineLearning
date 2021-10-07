@@ -80,8 +80,11 @@ m > \frac{1}{\epsilon}\big(\log(|H|) + \log\frac{1}{\delta}\big).
 	\item~[2 points] Suppose we have two learning algorithms $L_1$ and $L_2$, which use hypothesis spaces $H_1$ and $H_2$ respectively. We know that $H_1$ is larger than $H_2$, \ie $|H_1| > |H_2|$.
 	For each target function in $C$, we assume both algorithms can find a hypothesis consistent with the training data. 
 	\begin{enumerate}
-		\item~[1 point] According to Occam's Razor principle, which learning algorithm's  result hypothesis do you prefer? Why?
-		\item~[1 point]  How is this principle reflected in our PAC guarantee? Please use the above inequality to explain why we will prefer the corresponding result hypothesis. 
+		\item~[1 point] According to Occam's Razor principle, which learning algorithm's  result hypothesis do you prefer? Why?\newline\newline
+		According to Occam's Razor principle we would prefer $L_2$'s result hypothesis since $H_2$ is smaller.\newline
+		\item~[1 point]  How is this principle reflected in our PAC guarantee? Please use the above inequality to explain why we will prefer the corresponding result hypothesis. \newline\newline
+		Since $H_2$ is smaller we will need less training examples to achieve a generalization error $< \epsilon$ with probability $\geq 1 - \delta$. \newline
+	
 	\end{enumerate}
 	\item~[3 points] Let us investigate algorithm $L_1$. Suppose we have $n$ input features, and the size of the hypothesis space used by $L_1$ is $3^n$. Given $n=10$ features, if we want to guarantee a 95\% chance of learning a hypothesis of at least 90\% generalization accuracy, how many training examples at least do we need for $L_1$?
 \end{enumerate}
