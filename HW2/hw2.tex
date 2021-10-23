@@ -87,6 +87,8 @@ m > \frac{1}{\epsilon}\big(\log(|H|) + \log\frac{1}{\delta}\big).
 	
 	\end{enumerate}
 	\item~[3 points] Let us investigate algorithm $L_1$. Suppose we have $n$ input features, and the size of the hypothesis space used by $L_1$ is $3^n$. Given $n=10$ features, if we want to guarantee a 95\% chance of learning a hypothesis of at least 90\% generalization accuracy, how many training examples at least do we need for $L_1$?
+	\[m > \frac{1}{.1}(\ln{3^{10}} + \ln{\frac{1}{.05}})) = 139.8\]
+	This means that we will need at least 140 training examples for $L_1$.
 \end{enumerate}
 
 \item~[5 points] In our lecture about AdaBoost algorithm, we introduced the definition of weighted error in each round $t$, 
@@ -98,11 +100,38 @@ where $D_t(i)$ is the weight of $i$-th training example, and $h_t(x_i)$ is the p
 \epsilon_t = \sum_{y_i \neq h_t(x_i)} D_t(i).
 \]
 
+Here is our starting formula:
+\[
+\epsilon_t = \frac{1}{2} - \frac{1}{2}\big(\sum_{i=1}^m D_t(i) y_i h_t(x_i)\big)
+\]
+We know that $y_i h_t(x_i) = 1$ when $y_i = h_t(x_i)$ and $y_i h_t(x_i) = -1$ when $y_i \neq h_t(x_i)$
+\[
+\epsilon_t = \frac{1}{2} - \frac{1}{2}\big(\sum_{y_i = h_t(x_i)} D_t(i) - \sum_{y_i \neq h_t(x_i)} D_t(i)\big)
+\]
+We know that also know all the weights should add to one so $\sum_{i=1}^m D_t(i) = 1$ 
+\[
+\epsilon_t = \frac{1}{2} - \frac{1}{2}\big((1 - \sum_{y_i \neq h_t(x_i)} D_t(i)) - \sum_{y_i \neq h_t(x_i)} D_t(i)\big)
+\]
+\[
+\epsilon_t = \frac{1}{2} - \frac{1}{2}\big(1 - 2\sum_{y_i \neq h_t(x_i)} D_t(i)\big)
+\]
+\[
+\epsilon_t = \frac{1}{2} - \frac{1}{2} + \sum_{y_i \neq h_t(x_i)} D_t(i)
+\]
+\[
+\epsilon_t = \sum_{y_i \neq h_t(x_i)} D_t(i)
+\]
+
 \item~[20 points] Can you figure out an equivalent linear classifier for the following Boolean functions? Please point out what the weight vector, the bias parameter and the hyperplane are. Note that the hyperplane is determined by an equation. If you cannot find out a  linear classifier, please explain why, and work out some feature mapping such that, after mapping all the inputs of these functions into a higher dimensional space, there is a hyperplane that well separates the inputs; please write down the separating hyperplane in the new feature space. 
 	\begin{enumerate}
 		\item~[2 point] $f(x_1, x_2, x_3) = x_1 \land \neg x_2 \land \neg x_3$
+		\[x_1 - x_2 - x_3 \geq 1\]
+		$\w = [1, -1, -1], b=-1$
 		\item~[2 point] $f(x_1, x_2, x_3) = \neg x_1 \lor \neg x_2 \lor \neg x_3$ 
-		\item~[8 points] $f(x_1, x_2, x_3, x_4) = (x_1 \lor x_2) \land (x_3 \lor x_4)$
+		\[-x_1 - x_2 - x_3 \geq -2\]
+		$\w = [-1,-1,-1], b=2$
+		\item~[8 points] $f(x_1, x_2, x_3, x_4) = (x_1 \lor x_2) \land (x_3 \lor x_4)$\newline
+		We can map these boolean values into another space.  We define $y_1 = x_1 \lor x_2$ and $y_2 = x_3 \lor x_4$.
 		\item ~[8 points] $f(x_1, x_2) = (x_1 \land x_2) \lor (\neg x_1 \land \neg x_2)$
 	\end{enumerate}
 		
@@ -131,9 +160,25 @@ where $D_t(i)$ is the weight of $i$-th training example, and $h_t(x_i)$ is the p
 
 \begin{enumerate}
 	\item~[1 point] Write down the LMS (least mean square) cost function $J(\w, b)$. 
+	\[J(\w, b) = \frac{1}{2}\sum_{i=1}^m (y_i - (\w^T\x_i + b))^2\]
 	\item~[3 points] Calculate the gradient $\frac{\nabla J}{\nabla \w}$ and $\frac{\nabla J}{\nabla b}$ when $\w = [-1,1,-1]^\top$ and $b = -1$.
-	\item~[3 points] What are the optimal $\w$ and $\b$ that minimize the cost function? 
-	\item~[3 points] Now, we want to use stochastic gradient descent to minimize $J(\w, b)$. We initialize $\w = \0$ and $b = 0$. We set the learning rate $r = 0.1$ and sequentially go through the $5$ training examples. Please list the stochastic gradient in each step and the updated $\w$ and $b$.  
+	We know that $\frac{\delta J}{\delta w_j} = - \sum_{i=1}^m (y_i - \w^T\x_i)x_{ij}$ and $\frac{\delta J}{\delta b} = - \sum_{i=1}^m (y_i - \w^T\x_i)$
+	\[\frac{\nabla J}{\nabla \w} = [-22, 16, -56]\]
+	\[\frac{\nabla J}{\nabla b} = -10\]
+	\item~[3 points] What are the optimal $\w$ and $\b$ that minimize the cost function? \newline
+	Let's start by defining the augmented weight vector $\w' = [\w, b]^T$.  From here we can redefine the the gradient as:
+	\[\frac{\nabla J}{\nabla w'} = - \X^T(\y-\X\w')\]
+	where $\X$ is a $n$ x $d$ matrix where the rows represent an example and a column a feature and $y$ is a $n$-dimensional vector representing the output for each example. Now we can set the gradient to $\0$ and solve for the $\w'$.
+	\[\0 = -\X^T\y + \X^T\X\w' \Rightarrow \X^T\y = \X^T\X\w' \Rightarrow (\X^T\X)^{-1}\X^T\y = [1,1,1-1] = \w'\]
+	\[\w = [1, 1, 1], b = -1\]
+	\item~[3 points] Now, we want to use stochastic gradient descent to minimize $J(\w, b)$. We initialize $\w = \0$ and $b = 0$. We set the learning rate $r = 0.1$ and sequentially go through the $5$ training examples. Please list the stochastic gradient in each step and the updated $\w$ and $b$.
+	\newline We again use the definition of $\w'$ from our previous problem. For each step $i$ we calculate $\nabla J = -X_i(y_i - w' \cdot X_i), w'_{t+1} = w'_t - r * \nabla J$ (I used numpy to do all my calculations). 
+	\[\nabla J = [ -1, 1,  -2,  -1], \w_1' = [ 0.1, -0.1,  0.2,  0.1]\]
+	\[\nabla J = [-3.3, -3.3, -9.9, -3.3], \w_2' = [0.43, 0.23, 1.19, 0.43]\]
+	\[\nabla J = [-1.23,  1.23,  0.  ,  1.23], \w_3' = [0.553, 0.107, 1.19 , 0.307]\]
+	\[\nabla J = [-1.686, -3.372,  6.744, -1.686], \w_4' = [0.7216, 0.4442, 0.5156, 0.4756]\]
+	\[\nabla J = [ 5.042, -1.681, -1.681,  1.681], \w_5' = [0.217, 0.612, 0.684, 0.308]\]
+	The last round of values are rounded.
 \end{enumerate}
 \end{enumerate}
 
