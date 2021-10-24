@@ -74,6 +74,7 @@ class Adaboost:
         numb_examples = len(training_examples)
         weights = Node.construct_weights(training_examples, 1/numb_examples)
         for i in range(numb_iterations):
+            print(i)
             classifier = Node.decision_stump(training_examples, weights, attributes, Node.entropy)
             training_weighted_error, guesses = Adaboost.compute_weighted_error(classifier, training_examples, attributes, weights)
             alpha = 1 if training_weighted_error == 0 else (1/2) * log((1 - training_weighted_error)/training_weighted_error)
@@ -113,11 +114,11 @@ class Adaboost:
 class Bagging:
     def __init__(self, training_examples, test_examples, attributes, numb_iterations):
         self.label_dict = relabel_labels(training_examples, test_examples, attributes)
-        self.training_errors, self.testing_errors = Bagging.bagging(training_examples, test_examples, attributes, numb_iterations)
+        self.training_errors, self.testing_errors, self.trees = Bagging.bagging(training_examples, test_examples, attributes, numb_iterations)
     
     @staticmethod
     def bagging(training_examples, test_examples, attributes, numb_iterations):
-        # classifiers = []
+        classifiers = []
         training_errors = []
         test_errors = []
         numb_training_examples = len(training_examples)
@@ -132,9 +133,10 @@ class Bagging:
             Node.reclaim_attributes(attributes)
             train_error = Bagging.check_error_on_fly(tree, training_examples, votes_training_examples, attributes)
             test_error = Bagging.check_error_on_fly(tree, test_examples, votes_test_examples, attributes)
+            classifiers.append(tree)
             training_errors.append(train_error)
             test_errors.append(test_error)
-        return training_errors, test_errors
+        return training_errors, test_errors, classifiers
 
     @staticmethod
     def track_votes_for_examples(examples, attributes):
@@ -159,4 +161,5 @@ class Bagging:
             if overall_guess != example[-1]:
                 count_incorrect += 1
         return count_incorrect / len(examples)
+
             
