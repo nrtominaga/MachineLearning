@@ -1,4 +1,4 @@
-from Ensemble_Learning import Adaboost as ada
+from Ensemble_Learning import Bagging as bg
 from ID3 import Node as nd
 import matplotlib.pyplot as plt
 
@@ -17,13 +17,12 @@ if __name__ == "__main__":
     training_examples = nd.open_data('./Data/bank/train.csv')
     test_examples = nd.open_data('./Data/bank/test.csv')
     attributes = nd.create_attributes(bank_attribute_names, bank_attribute_vals, training_examples, test_examples)
-    adaboost = ada(training_examples, test_examples, attributes, 500)
-    # training_errors = adaboost.check_error(training_examples, attributes)
-    # print(training_errors) # 0.1028
+    bagging = bg(training_examples, test_examples, attributes, 500)
     one_to_five_hundred = list(range(1,501))
-    plt.plot(one_to_five_hundred, adaboost.train_errors, label="Training Error")
-    plt.plot(one_to_five_hundred, adaboost.test_errors, label="Test Errors")
+    plt.plot(one_to_five_hundred, bagging.training_errors, label="Training Error")
+    plt.plot(one_to_five_hundred, bagging.testing_errors, label="Test Errors")
     plt.xlabel("Iteration Number")
     plt.ylabel("Error")
-    plt.title("Adaboost Training and Test Errors")
+    plt.title("Bagging Training and Test Errors")
     plt.legend()
+    plt.show()

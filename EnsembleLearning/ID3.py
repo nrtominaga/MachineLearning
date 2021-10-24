@@ -32,7 +32,7 @@ class Node:
             label_from_tree = tree.travel_tree(example, attributes)
             if label_from_tree == example[-1]:
                 correct_count += 1
-        return correct_count/len(examples) * 100
+        return correct_count/len(examples)
 
     def travel_tree(self, example, attributes):
         if self.is_leaf:
