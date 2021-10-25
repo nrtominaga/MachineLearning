@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{graphicx}
 
 \newcommand{\semester}{Fall 2021}
 \newcommand{\assignmentId}{2}
@@ -190,9 +191,15 @@ We know that also know all the weights should add to one so $\sum_{i=1}^m D_t(i)
 \item~[36 points] We will implement the boosting and bagging algorithms based on decision trees.  Let us test them on the bank marketing dataset in HW1 (bank.zip in Canvas). We use the same approach to convert the numerical features into binary ones. That is, we choose the media (NOT the average) of the attribute values (in the training set) as the threshold, and examine if the feature is bigger (or less) than the threshold.  For simplicity, we treat ``unknown'' as a particular attribute value, and hence we do not have any missing attributes for both training and test.
 \begin{enumerate}
 	\item~[8 points] Modify your decision tree learning algorithm to learn decision stumps ---  trees with only two levels. Specifically, compute the information gain to select the best feature to split the data. Then for each subset, create a leaf node. Note that your decision stumps must support weighted training examples. Based on your decision stump learning algorithm, implement AdaBoost algorithm. Vary the number of iterations T from $1$ to $500$, and examine the training and test errors. You should report the results in two figures. The first figure shows how the training and test errors vary along with T. The second figure shows  the training and test errors of all the decision stumps learned in each iteration. What can you observe and conclude? You have had the results for a fully expanded decision tree in HW1. Comparing them with Adaboost, what can you observe and conclude?
-	
+	\newline
+	\includegraphics[scale=0.8]{Adaboost.png}\newline
+	\includegraphics[scale=0.8]{decision_stump.png}\newline
+	Adaboost seems to have a better testing error but not a better training error so it seems to generalize better.
 	\item~[8 points] Based on your code of the decision tree learning algorithm (with information gain), implement a Bagged trees learning algorithm. Note that each tree should be fully expanded --- no early stopping or post pruning. Vary the number of trees from $1$ to $500$, report how the training and test errors vary along with the tree number in a figure. Overall, are bagged trees better than a single tree? Are bagged trees better than Adaboost? 
-
+	\newline
+	\includegraphics[scale=0.8]{Bagging.png}
+	\newline
+	The bagging algorithm seems pretty similar to a fully expanded tree (maybe a little bit better in its testing error).  However it doesn't generalize as well as Adaboost.
 	\item~[6 points] Through the bias and variance decomposition, we have justified why the bagging approach is more effective than a single classifier/predictor. Let us verify it in real data. Experiment with the following procedure.
 	\begin{itemize}
 		\item REPEAT for 100 times
@@ -217,8 +224,26 @@ We know that also know all the weights should add to one so $\sum_{i=1}^m D_t(i)
 		\item~[8 points] Implement the batch gradient descent algorithm, and tune the learning rate $r$ to ensure the algorithm converges.  To examine convergence, you can watch the norm of the weight vector difference,  $\|w_{t} - w_{t-1}\|$,  at each step $t$.  if $\|w_{t} - w_{t-1}\|$ is  less than a tolerance level, say, $10^{-6}$, you can conclude that it converges. You can initialize your weight vector to be $\0$.  Please find an appropriate $r$ such that the algorithm converges. To tune $r$, you can start with a relatively big value, say, $r=1$, and then gradually decrease $r$, say $r=0.5, 0.25, 0.125, \ldots$, until you see the convergence. 
 		Report the learned weight vector, and the learning rate $r$. Meanwhile, please record the cost function  value of the training data at each step, and then draw a figure shows how the cost function changes along with steps. Use your final weight vector to calculate  the cost function value of the test data. 
 		%To do so, you can start $r$ to be relatively big, say, $r=1$, and then gradually decrease $r$. For a specific setting of $r$, you can calculate the cost function after each update and draw a curve showing how the cost function changes along with the number of updates. If you find the cost function on your curve tends to converge, you can conclude your algorithm convergences. 
+		\newline
+		\includegraphics[scale=.8]{BGDCost.png}\newline
+		Final Weight Vector(bgd):\newline
+		[ 0.89969405  0.78539622  0.85007385  1.29819895  0.12974519  1.57107959
+		0.99780524 -0.01521448]\newline
+		Final Test Cost(bgd):
+		23.360587522223284
 		\item~[8 points] Implement the stochastic gradient descent (SGD) algorithm. You can initialize your weight vector to be $\0$. Each step, you randomly sample a training example, and then calculate the stochastic gradient to update the weight vector.  Tune the learning rate $r$ to ensure your SGD converges. To check convergence, you can calculate the cost function of the training data after each stochastic gradient update, and draw a figure showing how the cost function values vary along with the number of updates. At the beginning, your curve will oscillate a lot. However, with an appropriate $r$, as more and more updates are finished, you will see the cost function tends to converge. Please report the learned weight vector, and the learning rate you chose, and the cost function value of the test data with your learned weight vector.   
+		\newline
+		\includegraphics[scale=.8]{SGDCost.png}\newline
+		Final Weight Vector(sgd):\newline
+		[ 0.1330348  -0.0961236  -0.0408294   0.58685032 -0.0493948   0.42395254
+		0.16574373  0.00766225]\newline
+		Final Test Cost(sgd):
+		21.621959275431184
 		\item~[6 points] We have discussed how to  calculate the optimal weight vector with an analytical form. Please calculate the optimal weight vector in this way. Comparing with the  weight vectors learned by batch gradient descent and stochastic gradient descent, what can you conclude? Why?
+		\newline
+		Analytical $\w = $ [ 0.90056451  0.78629331  0.85104314  1.29889413  0.12989067  1.57224887
+		0.99869359 -0.01519667] \newline
+		Batch Gradient Descent found the closer weight vector.
 	\end{enumerate}
 
 \end{enumerate}
