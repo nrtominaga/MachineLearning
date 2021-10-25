@@ -1,4 +1,3 @@
-from os import stat
 import numpy as np
 
 class Linear_Regression:
@@ -63,4 +62,8 @@ class Linear_Regression:
     @staticmethod
     def calculate_cost(X, y, w):
         return 0.5 * np.sum((y - np.sum((X * w), axis=1)) ** 2)
+    
+    @staticmethod
+    def calculate_analytical_weights(X, y):
+        return np.linalg.inv(X.T @ X) @ X.T @ y
         
