@@ -1,6 +1,7 @@
 import statistics
 from math import log2
 import itertools
+import random
 
 
 class Attribute:
@@ -80,6 +81,65 @@ class Node:
             return Node(value, True)
         else:
             attribute_split = Node.info_gain(examples, attributes, weights, info_gain_method)
+            new_root = Node(attribute_split, False)
+            attribute_index, attribute_values = Node.find_attribute_values(attribute_split, attributes)
+            for value in attribute_values:
+                subset, subset_weights = Node.find_subset_examples(value, attribute_index, examples, weights)
+                if len(subset) == 0:
+                    new_value = Node.get_majority_label(examples, weights, attributes)
+                    new_root.children[value] = Node(new_value, True)
+                else:
+                    attributes[attribute_index].in_attributes = False
+                    new_root.children[value] = Node.id3(subset, subset_weights, attributes, info_gain_method,
+                                                        current_depth + 1, max_depth)
+                    attributes[attribute_index].in_attributes = True
+            return new_root
+
+    @staticmethod
+    def numb_attr_avail(attributes):
+        numb_avail = 0
+        for attr in attributes:
+            if attr.in_attributes:
+                numb_avail += 1
+        return numb_avail
+
+    @staticmethod
+    def select_random_attr(attributes, subset_size, training_examples):
+        numb_avail = Node.numb_attr_avail(attributes)
+        if numb_avail <= subset_size:
+            return attributes, training_examples
+        else:
+            random_attributes = []
+            indices = []
+            numb_attr = len(attributes) - 1
+            random_is = random.sample(range(numb_attr), numb_attr)
+            for random_i in random_is:
+                if len(random_attributes) == subset_size:
+                    break
+                if attributes[random_i].in_attributes or not attributes[random_i].is_label:
+                    random_attributes.append(attributes[random_i])
+                    indices.append(random_i)
+            random_attributes.append(attributes[-1])
+            new_examples = []
+            for example in training_examples:
+                new_example = []
+                for i in indices:
+                    new_example.append(example[i])
+                new_example.append(example[-1])
+                new_examples.append(new_example)
+            return random_attributes, new_examples
+
+    @staticmethod
+    def rf_id3(examples, weights, attributes, info_gain_method, current_depth, max_depth, subset_size):  # weights
+        if max_depth == current_depth or Node.attributes_empty(attributes):
+            value = Node.get_majority_label(examples, weights, attributes)
+            return Node(value, True)
+        is_same_label, value = Node.same_label(examples)
+        if is_same_label:
+            return Node(value, True)
+        else:
+            rand_attributes, new_example_set = Node.select_random_attr(attributes, subset_size, examples)
+            attribute_split = Node.info_gain(new_example_set, rand_attributes, weights, info_gain_method)
             new_root = Node(attribute_split, False)
             attribute_index, attribute_values = Node.find_attribute_values(attribute_split, attributes)
             for value in attribute_values:

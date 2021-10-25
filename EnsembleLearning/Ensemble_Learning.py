@@ -162,4 +162,54 @@ class Bagging:
                 count_incorrect += 1
         return count_incorrect / len(examples)
 
+class Random_Forest:
+    def __init__(self, training_examples, test_examples, attributes, numb_iterations, subset_size):
+        self.label_dict = relabel_labels(training_examples, test_examples, attributes)
+        self.trees, self.training_errors, self.test_errors = Random_Forest.random_forest(training_examples, test_examples, attributes, numb_iterations, subset_size)
+
+    @staticmethod
+    def random_forest(training_examples, test_examples, attributes, numb_iterations, subset_size):
+        trees = []
+        max_depth = len(attributes) + 1
+        training_errors = []
+        testing_errors = []
+        votes_training_examples = Bagging.track_votes_for_examples(training_examples, attributes)
+        votes_test_examples = Bagging.track_votes_for_examples(test_examples, attributes)
+        numb_training_examples = len(training_examples)
+        for i in range(numb_iterations):
+            print(i)
+            weights = Node.construct_weights(training_examples, 1)
+            drawn_examples = random.choices(training_examples, k=numb_training_examples)
+            tree = Node.rf_id3(drawn_examples, weights, attributes, Node.entropy, 0, max_depth, subset_size)
+            trees.append(tree)
+            Node.reclaim_attributes(attributes)
+            train_error = Bagging.check_error_on_fly(tree, training_examples, votes_training_examples, attributes)
+            test_error = Bagging.check_error_on_fly(tree, test_examples, votes_test_examples, attributes)
+            training_errors.append(train_error)
+            testing_errors.append(test_error)
+        return trees, training_errors, testing_errors
+
+    @staticmethod
+    def track_votes_for_examples(examples, attributes):
+        label_attr = Node.find_label(attributes)
+        votes_examples = []
+        for _ in examples:
+            votes = {}
+            for val in label_attr.values:
+                votes[val] = 0
+            votes_examples.append(votes)
+        return votes_examples
+    
+    @staticmethod
+    def check_error_on_fly(tree, examples, votes_examples, attributes):
+        count_incorrect = 0
+        for i in range(len(examples)):
+            example = examples[i]
+            tree_guess = tree.travel_tree(example, attributes)
+            votes_example = votes_examples[i]
+            votes_example[tree_guess] += 1
+            overall_guess = max(votes_example, key=votes_example.get)
+            if overall_guess != example[-1]:
+                count_incorrect += 1
+        return count_incorrect / len(examples)
             

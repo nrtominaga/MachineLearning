@@ -210,9 +210,15 @@ We know that also know all the weights should add to one so $\sum_{i=1}^m D_t(i)
 		\item 	For each of the test example, compute the predictions of the $100$ single trees. Take the average, subtract the ground-truth label, and take square to compute the bias term (see the lecture slides). Use all the predictions to compute the sample variance  as the approximation to the variance term (if you forget what the sample variance is, check it out 
 		\href{http://www.randomservices.org/random/sample/Variance.html}{here}). You now obtain the bias and variance terms of a single tree learner for one test example. You will need to compute them for all the test examples and then take average as your final estimate of the bias and variance terms for the single decision tree learner. You can add the two terms to obtain the estimate of the general squared error (that is, expected error w.r.t test examples). Now use your $100$ bagged predictors to do the same thing and estimate the general bias and variance terms, as well as the general squared error.  Comparing the results of the single tree learner and the bagged trees, what can you conclude?  What causes the difference?  
 	\end{itemize}
+	
 	 
 	\item~[8 points] Implement the random forest algorithm as we discussed in our lecture. Vary the number of random trees from $1$ to $500$. Note that you need to modify your tree learning algorithm to randomly select a subset of features before each split. Then use the information gain to select the best feature to split.  Vary the size of the feature subset from $\{2, 4, 6\}$.  Report in a figure how the training and test errors vary along with the number of random trees for each feature subset size setting. How does the performance compare with bagged trees? 
-	
+	\newline
+	\includegraphics[scale=0.8]{RFTrain.png}
+	\newline
+	\includegraphics[scale=0.8]{RFTest.png}
+	\newline
+	Random Forest seems to do a little better than the Bagging Algorithm
 	\item~[6 points] Following (c), estimate the bias and variance terms, and the squared error for a single random tree and the whole forest.  Comparing with the bagged trees, what do you observe? What can you conclude? 
 \end{enumerate}
 
