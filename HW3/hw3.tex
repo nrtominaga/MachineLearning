@@ -1,0 +1,177 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\newcommand{\semester}{Fall 2021}
+\newcommand{\assignmentId}{3}
+\newcommand{\releaseDate}{19 Oct, 2021}
+\newcommand{\dueDate}{11:59pm, 2 Nov, 2021}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+	Due: \dueDate}
+
+
+\title{CS 5350/6350: Machine Learning \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\newcommand{\Hcal}{\mathcal{H}} 
+{\footnotesize
+	\begin{itemize}
+		\item You are welcome to talk to other members of the class about
+		the homework. I am more concerned that you understand the
+		underlying concepts. However, you should write down your own
+		solution. Please keep the class collaboration policy in mind.
+		
+		\item Feel free to discuss the homework with the instructor or the TAs.
+		
+		\item Your written solutions should be brief and clear. You do not need to include original problem descriptions in your solutions. You need to
+		show your work, not just the final answer, but you do \emph{not}
+		need to write it in gory detail. Your assignment should be {\bf no
+			more than 15 pages}. Every extra page will cost a point.
+		
+		\item Handwritten solutions will not be accepted.
+		
+		
+		\item {\em Your code should run on the CADE machines}. \textbf{You should
+		include a shell script, {\tt run.sh}, that will execute your code
+		in the CADE environment. Your code should produce similar output to what you include in your report.}
+		
+		You are responsible for ensuring that the grader can execute the
+		code using only the included script. If you are using an
+		esoteric programming language, you should make sure that its
+		runtime is available on CADE.
+		
+		\item Please do not hand in binary files! We will {\em not} grade
+		binary submissions.
+		
+		\item The homework is due by \textbf{midnight of the due date}. Please submit
+		the homework on Canvas.
+		
+	\end{itemize}
+}
+
+
+\section{Paper Problems [36 points + 15 bonus]}
+\begin{enumerate}
+	\item~[8 points] Suppose we have a linear classifier for $2$ dimensional features. The classification boundary, \ie  the hyperplane is $2x_1 + 3x_2 - 4 = 0$ ($x_1$ and $x_2$ are the two input features). 
+	\begin{enumerate}
+		
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{cc|c}
+			$x_1$ & $x_2$ &  {label}\\ 
+			\hline\hline
+			1 & 1 & 1 \\ \hline
+			1 & -1 & -1 \\ \hline
+			0 & 0 & -1 \\ \hline
+			-1 & 3 & 1 \\ \hline
+			\end{tabular}
+		\caption{Dataset 1}
+	\end{table}
+	\item~[4 points] Now we have a dataset in Table 1. 
+	Does the hyperplane have a margin for the dataset?  If yes, what is the margin? Please use the formula we discussed in the class to compute. If no, why? (Hint: when can a hyperplane have a margin?)
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{cc|c}
+			$x_1$ & $x_2$ &  {label}\\ 
+			\hline\hline
+			1 & 1 & 1 \\ \hline
+			1 & -1 & -1 \\ \hline
+			0 & 0 & -1 \\ \hline
+			-1 & 3 & 1 \\ \hline
+				-1 & -1 & 1 \\
+		\end{tabular}
+		\caption{Dataset 2}
+	\end{table}
+	\item~[4 points] We have a second dataset in Table 2. Does the hyperplane have a margin for the dataset? If yes, what is the margin? If no, why? 
+	
+	\end{enumerate}
+	
+
+		\item~[8 points] Now, let us look at margins for datasets. Please review what we have discussed in the lecture and slides. A margin for a dataset is not a margin of a hyperplane!  
+		\begin{enumerate}
+			
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{cc|c}
+					$x_1$ & $x_2$ &  {label}\\ 
+					\hline\hline
+					-1 & 0 & -1 \\ \hline
+					0 & -1 & -1 \\ \hline
+					1 & 0 & 1 \\ \hline
+					0 & 1 & 1 \\ \hline
+				\end{tabular}
+				\caption{Dataset 3}
+			\end{table}
+			\item~[4 points] Given the dataset in Table 3, can you calculate its margin? If you cannot, please explain why. 
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{cc|c}
+					$x_1$ & $x_2$ &  {label}\\ 
+					\hline\hline
+						-1 & 0 & -1 \\ \hline
+					0 & -1 & 1 \\ \hline
+					1 & 0 & -1 \\ \hline
+					0 & 1 & 1 \\ \hline
+				\end{tabular}
+				\caption{Dataset 4}
+			\end{table}
+			\item~[4 points] Given the dataset in Table 4, can you calculate its margin? If you cannot, please explain why. 
+			
+		\end{enumerate}
+	
+	\item ~[\textbf{Bonus}] [5 points] Let us review the Mistake Bound Theorem for Perceptron discussed in our lecture.  If we change the second assumption to be as follows: Suppose there exists a vector $\u\in \mathbb{R}^n$, and a positive $\gamma$, we have for each $(\x_i, y_i)$ in the training data, $y_i(\u^\top \x_i) \ge \gamma$. What is the upper bound for the number of mistakes made by the Perceptron algorithm?   Note that $\u$ is unnecessary to be a unit vector.
+	
+	\item~[10 points] We want to use Perceptron to learn a disjunction as follows,
+	\[
+	f(x_1, x_2, \ldots, x_n) = \neg x_1 \lor \neg \ldots \neg x_k \lor x_{k+1} \lor \ldots \lor x_{2k} \;\;\;\;(\mathrm{note\; that}\;\; 2k < n).
+	\]
+	The training set are all $2^n$ Boolean input vectors in the instance space. 
+	Please derive an upper bound of the number of mistakes made by Perceptron in learning this disjunction.
+
+	\item~[10 points] Prove that linear classifiers in a plane cannot shatter any $4$ distinct points. 
+	\item~[\textbf{Bonus}]~[10 points] Consider our infinite hypothesis space $\Hcal$ are all rectangles in a plain. Each rectangle corresponds to a classifier --- all the points inside the rectangle are classified as positive, and otherwise classified as negative. What is $\mathrm{VC}(\Hcal)$? 
+
+
+\end{enumerate}
+
+\section{Practice [64 points ]}
+\begin{enumerate}
+	\item~[2 Points] Update your machine learning library. Please check in your implementation of ensemble learning and least-mean-square (LMS) method in HW1 to your GitHub repository. Remember last time you created the folders ``Ensemble Learning" and ``Linear Regression''. You can commit your code into the corresponding folders now. Please also supplement README.md with concise descriptions about how to use your code to run your Adaboost, bagging, random forest, LMS with batch-gradient and stochastic gradient (how to call the command, set the parameters, etc). Please create a new folder ``Perceptron" in the same level as these folders.  
+
+\item We will implement  Perceptron for a binary classification task --- bank-note authentication. Please download the data ``bank-note.zip'' from Canvas. The features and labels are listed in the file ``bank-note/data-desc.txt''. The training data are stored in the file ``bank-note/train.csv'', consisting of $872$ examples. The test data are stored in ``bank-note/test.csv'', and comprise of $500$ examples. In both the training and testing datasets, feature values and labels are separated by commas. 
+\begin{enumerate}
+	\item~[16 points] Implement the standard Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector, and the average prediction error on the test dataset. 
+	\item~[16 points] Implement the voted Perceptron. Set the maximum number of epochs $T$ to 10. Report the list of the distinct weight vectors and their counts --- the number of correctly predicted training examples. Using this set of weight vectors to predict each test example. Report the average test error. 
+	\item~[16 points] Implement the average Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector. Comparing with the list of weight vectors from (b), what can you observe? Report the average prediction error on the test data. 
+	\item~[14 points] Compare the average prediction errors for the three methods. What do you conclude? 
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
