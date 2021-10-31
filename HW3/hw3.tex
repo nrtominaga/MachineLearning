@@ -16,6 +16,7 @@
 
 \newcommand{\bx}{{\bf x}}
 \newcommand{\bw}{{\bf w}}
+\newcommand{\Answer}{{\\\textbf{Answer: }}}
 
 \title{CS 5350/6350: Machine Learining \semester}
 \author{Homework \assignmentId}
@@ -89,7 +90,12 @@
 	\end{table}
 	\item~[4 points] Now we have a dataset in Table 1. 
 	Does the hyperplane have a margin for the dataset?  If yes, what is the margin? Please use the formula we discussed in the class to compute. If no, why? (Hint: when can a hyperplane have a margin?)
-	
+	\Answer The hyper plane correctly guesses each of the examples so there is a margin that can be calculated.
+	\[\text{Example 1: } \frac{|\w^T \x_1|}{||\w||} = .277\]
+	\[\text{Example 2: } \frac{|\w^T \x_2|}{||\w||} = 1.387\]
+	\[\text{Example 3: } \frac{|\w^T \x_3|}{||\w||} = 1.109\]
+	\[\text{Example 4: } \frac{|\w^T \x_4|}{||\w||} = .832\]
+	The smallest distance between the hyperplane and an instance in the dataset is $.277$ so that is the margin for the hyperplane.
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{cc|c}
@@ -104,7 +110,7 @@
 		\caption{Dataset 2}
 	\end{table}
 	\item~[4 points] We have a second dataset in Table 2. Does the hyperplane have a margin for the dataset? If yes, what is the margin? If no, why? 
-	
+	\Answer The hyperplane does not correctly classify the final example so we cannot calculate a margin.
 	\end{enumerate}
 	
 
@@ -124,6 +130,7 @@
 				\caption{Dataset 3}
 			\end{table}
 			\item~[4 points] Given the dataset in Table 3, can you calculate its margin? If you cannot, please explain why. 
+			\Answer 
 			\begin{table}[h]
 				\centering
 				\begin{tabular}{cc|c}
@@ -137,7 +144,7 @@
 				\caption{Dataset 4}
 			\end{table}
 			\item~[4 points] Given the dataset in Table 4, can you calculate its margin? If you cannot, please explain why. 
-			
+			\Answer The data is not linearly seperable so we cannot calculate a margin.
 		\end{enumerate}
 	
 	\item ~[\textbf{Bonus}] [5 points] Let us review the Mistake Bound Theorem for Perceptron discussed in our lecture.  If we change the second assumption to be as follows: Suppose there exists a vector $\u\in \mathbb{R}^n$, and a positive $\gamma$, we have for each $(\x_i, y_i)$ in the training data, $y_i(\u^\top \x_i) \ge \gamma$. What is the upper bound for the number of mistakes made by the Perceptron algorithm?   Note that $\u$ is unnecessary to be a unit vector.
@@ -148,6 +155,7 @@
 	\]
 	The training set are all $2^n$ Boolean input vectors in the instance space. 
 	Please derive an upper bound of the number of mistakes made by Perceptron in learning this disjunction.
+	\Answer 
 
 	\item~[10 points] Prove that linear classifiers in a plane cannot shatter any $4$ distinct points. 
 	\item~[\textbf{Bonus}]~[10 points] Consider our infinite hypothesis space $\Hcal$ are all rectangles in a plain. Each rectangle corresponds to a classifier --- all the points inside the rectangle are classified as positive, and otherwise classified as negative. What is $\mathrm{VC}(\Hcal)$? 
