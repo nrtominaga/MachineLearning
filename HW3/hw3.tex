@@ -110,7 +110,7 @@
 		\caption{Dataset 2}
 	\end{table}
 	\item~[4 points] We have a second dataset in Table 2. Does the hyperplane have a margin for the dataset? If yes, what is the margin? If no, why? 
-	\Answer The hyperplane does not correctly classify the final example so we cannot calculate a margin.
+	\Answer We do not have a margin for this dataset since the data is not linearly separable with the hyperplane given. If we plugin $[-1, -1]$ for our two features we will get $2(-1) + 3(-1) - 4 = -9 \leq 0$ which means that our label should be negative but it is positive in the dataset.
 	\end{enumerate}
 	
 
@@ -130,7 +130,10 @@
 				\caption{Dataset 3}
 			\end{table}
 			\item~[4 points] Given the dataset in Table 3, can you calculate its margin? If you cannot, please explain why. 
-			\Answer 
+			\Answer If we look at the points plotted on the graph with + points labeled blue and - points labeled red we get \newline
+        	\includegraphics[scale=0.4]{2a.png}\newline
+        	The black line is the linear classifier $x_1+x_2=0$.  Visually we see that this classifier will give us the margin for the dataset.  Any other classifiers will give us smaller margins.  Now we just need to plug in the values for the distance between any of the points and the hyperplane.  
+        	\[=\frac{\abs{\w^T\x + b}}{\norm{\w}} = \frac{1}{1.41} = .707\]
 			\begin{table}[h]
 				\centering
 				\begin{tabular}{cc|c}
@@ -144,10 +147,19 @@
 				\caption{Dataset 4}
 			\end{table}
 			\item~[4 points] Given the dataset in Table 4, can you calculate its margin? If you cannot, please explain why. 
-			\Answer The data is not linearly seperable so we cannot calculate a margin.
+			\Answer The margin cannot be calculated since the data is not linearly separable.\newline
+			\includegraphics[scale=0.4]{2b.png}
 		\end{enumerate}
 	
 	\item ~[\textbf{Bonus}] [5 points] Let us review the Mistake Bound Theorem for Perceptron discussed in our lecture.  If we change the second assumption to be as follows: Suppose there exists a vector $\u\in \mathbb{R}^n$, and a positive $\gamma$, we have for each $(\x_i, y_i)$ in the training data, $y_i(\u^\top \x_i) \ge \gamma$. What is the upper bound for the number of mistakes made by the Perceptron algorithm?   Note that $\u$ is unnecessary to be a unit vector.
+	\Answer For proof $1/3$ and $2/3$ we will get the same conclusions as before i.e. (1)$\u^\top\w_t \geq t\gamma$ and (2)$\norm{\w_t}^2 \leq tR^2$ ($\u$ not being a unit vector will not affect these proofs) $\therefore$
+	\[R\sqrt{t} \geq \norm{\w_t}\]
+	Now let's divide (1) by $\norm{\u}$ on both sides giving us
+	\[\frac{\u^\top\w_t}{\norm{\u}} \geq \frac{t\gamma}{\norm{\u}}\]
+	\[R\sqrt{t} \geq \norm{\w_t} \geq \frac{\u^\top\w_t}{\norm{\u}}\] We know the above is true looking at slide 60 from the lectures.
+	\[R\sqrt{t} \geq \norm{\w_t} \geq \frac{\u^\top\w_t}{\norm{\u}} \geq \frac{t\gamma}{\norm{\u}}\]
+	\[R\sqrt{t} \geq \frac{t\gamma}{\norm{\u}}\]
+	\[t \leq \frac{R^2\norm{\u}^2}{\gamma^2}\]
 	
 	\item~[10 points] We want to use Perceptron to learn a disjunction as follows,
 	\[
@@ -155,9 +167,18 @@
 	\]
 	The training set are all $2^n$ Boolean input vectors in the instance space. 
 	Please derive an upper bound of the number of mistakes made by Perceptron in learning this disjunction.
-	\Answer 
+	\Answer Our equivalent classifier would be
+	\[(1-x_1) + \ldots + (1-x_k) + x_{k+1} + \ldots + x_{2k} - 1 = 0\]
+	We don't want to use this classifier though since some points will lie on it.  $\therefore$ we use
+	\[(1-x_1) + \ldots + (1-x_k) + x_{k+1} + \ldots + x_{2k} - 0.5 = 0\]
+	The closest point to this hyperplane is a vector where half of the beginning elements are $0$'s and the rest are $1$'s.  We now can calculate $\gamma$
+	\[\gamma = \sqrt{\frac{1}{(2k+1)^2}} = \frac{1}{2k+1}\]
+	\[R = \sqrt{n + 1}\]
+	Let's calculate the upper bound now
+    \[t = \frac{R^2}{\gamma^2} = (n+1)(2k+1)^2\]
 
 	\item~[10 points] Prove that linear classifiers in a plane cannot shatter any $4$ distinct points. 
+	\Answer We see this in 2b
 	\item~[\textbf{Bonus}]~[10 points] Consider our infinite hypothesis space $\Hcal$ are all rectangles in a plain. Each rectangle corresponds to a classifier --- all the points inside the rectangle are classified as positive, and otherwise classified as negative. What is $\mathrm{VC}(\Hcal)$? 
 
 
@@ -170,9 +191,14 @@
 \item We will implement  Perceptron for a binary classification task --- bank-note authentication. Please download the data ``bank-note.zip'' from Canvas. The features and labels are listed in the file ``bank-note/data-desc.txt''. The training data are stored in the file ``bank-note/train.csv'', consisting of $872$ examples. The test data are stored in ``bank-note/test.csv'', and comprise of $500$ examples. In both the training and testing datasets, feature values and labels are separated by commas. 
 \begin{enumerate}
 	\item~[16 points] Implement the standard Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector, and the average prediction error on the test dataset. 
+	\Answer Please run the {\tt run.sh} file and go to the weights and error directory to view the weights and the error.
 	\item~[16 points] Implement the voted Perceptron. Set the maximum number of epochs $T$ to 10. Report the list of the distinct weight vectors and their counts --- the number of correctly predicted training examples. Using this set of weight vectors to predict each test example. Report the average test error. 
+	\Answer Please run the {\tt run.sh} file and go to the weights and error directory to view the weights and the error.
 	\item~[16 points] Implement the average Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector. Comparing with the list of weight vectors from (b), what can you observe? Report the average prediction error on the test data. 
+	\Answer Please run the {\tt run.sh} file and go to the weights and error directory to view the weights and the error.
 	\item~[14 points] Compare the average prediction errors for the three methods. What do you conclude? 
+	\Answer
+	That the error for voted and averaged perceptron are fairly low and reliable.  Standard perceptron can have lower error but it is less reliable because of the shuffling of the data.
 \end{enumerate}
 
 
