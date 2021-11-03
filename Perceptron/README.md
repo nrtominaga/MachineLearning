@@ -18,3 +18,5 @@ perceptron.  To get the error simply run
 error = perceptron.perform_error_function()
 ```
 and this will return the error to the variable `error`
+
+To run the experiments simply run the `run.sh` file
