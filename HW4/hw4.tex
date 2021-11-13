@@ -1,0 +1,160 @@
+\DeclareUnicodeCharacter{FF0C}{ }
+\documentclass[12pt, fullpage,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\newcommand{\semester}{Fall 2021}
+\newcommand{\assignmentId}{4}
+\newcommand{\releaseDate}{4 Nov, 2021}
+\newcommand{\dueDate}{11:59pm, 19 Nov, 2021}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+	Due: \dueDate}
+
+
+\title{CS 5350/6350: Machine Learning \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\newcommand{\Hcal}{\mathcal{H}} 
+{\footnotesize
+	\begin{itemize}
+		\item You are welcome to talk to other members of the class about
+		the homework. I am more concerned that you understand the
+		underlying concepts. However, you should write down your own
+		solution. Please keep the class collaboration policy in mind.
+		
+		\item Feel free to discuss the homework with the instructor or the TAs.
+		
+		\item Your written solutions should be brief and clear. You do not need to include original problem descriptions in your solutions. You need to
+		show your work, not just the final answer, but you do \emph{not}
+		need to write it in gory detail. Your assignment should be {\bf no
+			more than 15 pages}. Every extra page will cost a point.
+		
+		\item Handwritten solutions will not be accepted.
+		
+		
+		\item {\em Your code should run on the CADE machines}. \textbf{You should
+		include a shell script, {\tt run.sh}, that will execute your code
+		in the CADE environment. Your code should produce similar output to what you include in your report.}
+		
+		You are responsible for ensuring that the grader can execute the
+		code using only the included script. If you are using an
+		esoteric programming language, you should make sure that its
+		runtime is available on CADE.
+		
+		\item Please do not hand in binary files! We will {\em not} grade
+		binary submissions.
+		
+		\item The homework is due by \textbf{midnight of the due date}. Please submit
+		the homework on Canvas.
+		
+	\end{itemize}
+}
+
+
+\section{Paper Problems [40 points + 10 bonus]}
+\begin{enumerate}
+	\item~[9 points] The learning of soft SVMs is formulated as the following optimization problem,
+		\begin{align}
+		\min\limits_{\w, b, \{\xi_i\}} &\;\;\;\frac{1}{2}\w^\top\w + C\sum_i \xi_i， \nonumber\\
+		\mathrm{s.t.}\;\; \forall 1 \le i \le N,&\;\;\; y_i(\w^\top \x_i + b) \ge 1 - \xi_i , \nonumber \\
+		&\;\;\; \xi_i \ge 0 \nonumber
+		\end{align}
+		where $N$ is the number of the training examples.
+	As we discussed in the class, the slack variables $\{\xi_i\}$ are introduced to allow the training examples to break into the margin so that we can learn a linear classifier even when the data is not linearly separable. 
+	\begin{enumerate}
+		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ breaks into the margin? 
+		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ stays on or outside the margin? 
+		\item~[3 point] Why do we incorporate the term $C\cdot\sum_i \xi_i $ in the objective function? What will happen if we throw out this term?
+	\end{enumerate}
+	
+	
+	\item~[6 points] Write down the dual optimization problem for soft SVMs.  
+	Please clearly indicate the constraints, and explain how it is derived. (Note: do NOT directly copy slides content, write down your own understanding.)
+	
+	
+	\item~[10 points] Continue with the dual form. Suppose after the training procedure, you have obtained the optimal parameters.
+	\begin{enumerate}
+		\item~[4 points] What parameter values can indicate if an example stays outside the margin?
+		\item~[6 points]  if we want to find out which training examples just sit on the margin (neither inside nor outside), what shall we do? Note you are not allowed to examine if the functional margin (\ie $y_i(\w^\top\x_i +b)$) is $1$.
+	\end{enumerate}
+	
+	
+	\item~[6 points] How can we use the kernel trick to enable SVMs to perform nonlinear classification? What is the corresponding optimization problem?
+
+		
+	%calculate the subgradient
+	\item~[9 points] Suppose we have the training dataset shown in Table 1. We want to learn a SVM classifier. We initialize all the model parameters with $0$. We set the learning rates for the first three steps to $\{0.01, 0.005, 0.0025\}$.  Please list the sub-gradients of the SVM objective w.r.t the model parameters for the first three steps, when using the stochastic sub-gradient descent algorithm. 
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{ccc|c}
+			$x_1$ & $x_2$ & $x_3$ &  $y$\\ 
+			\hline\hline
+			$0.5$ & $-1$ & $0.3$ & $1$ \\ \hline
+			$-1$ & $-2$ & $-2$ & $-1$\\ \hline
+			$1.5$ & $0.2$ & $-2.5$ & $1$\\ \hline
+		\end{tabular}
+	\caption{Dataset}
+	\end{table}
+
+	%kernel Perceptron
+	\item~[\textbf{Bonus}][10 points] Let us derive a dual form for Perceptron. Recall, in each step of Perceptron, we add to the current weights $\w$ (including the bias parameter) $y_i\x_i$ for some misclassified example $(\x_i, y_i)$. We initialize $\w$ with $\mathbf{0}$. So, instead of updating $\w$, we can maintain for each training example $i$ a mistake count $c_i$ --- the number of times the data point $(\x_i, y_i)$ has been misclassified. 
+	
+	\begin{itemize}
+		\item~[2 points] Given the mistake counts of all the training examples, $\{c_1, \ldots, c_N\}$, how can we recover $\w$? How can we make predictions with these mistake counts? 
+		\item~[3 points] Can you develop an algorithm that uses mistake counts to learn the Perceptron? Please list the pseudo code. 
+		\item~[5 points] Can you apply the kernel trick to develop an nonlinear Perceptron? If so, how do you conduct classification? Can you give the pseudo code fo learning this kernel Perceptron? 
+	\end{itemize}   
+	
+\end{enumerate}
+
+\section{Practice [60 points + 10 bonus ]}
+\begin{enumerate}
+	\item~[2 Points] Update your machine learning library. Please check in your implementation of Perceptron, voted Perceptron and average Perceptron algorithms. Remember last time you created the folders ``Perceptron". You can commit your code into the corresponding folders now. Please also supplement README.md with concise descriptions about how to use your code to run these algorithms (how to call the command, set the parameters, etc). Please create a new folder ``SVM" in the same level as these folders.  
+
+%kernel perceptron, kernel svms
+	\item~[28 points] We will first implement SVM in the primal domain with stochastic sub-gradient descent. We will reuse the  dataset for Perceptron implementation, namely, ``bank-note.zip'' in Canvas. The features and labels are listed in the file ``classification/data-desc.txt''. The training data are stored in the file ``classification/train.csv'', consisting of $872$ examples. The test data are stored in ``classification/test.csv'', and comprise of $500$ examples. In both the training and test datasets, feature values and labels are separated by commas. Set the maximum epochs $T$ to 100. Don't forget to shuffle the training examples at the start of each epoch. Use the curve of the objective function (along with the number of updates) to diagnosis the convergence. Try the hyperparameter $C$ from $\{ \frac{100}{873}, \frac{500}{873,} \frac{700}{873}\}$. Don't forget to convert the labels to be in $\{1, -1\}$.  
+	\begin{enumerate}
+		\item~[12 points] Use the schedule of learning rate: $\gamma_t = \frac{\gamma_0}{1+\frac{\gamma_0}{a}t}	$. Please tune $\gamma_0$ and $a$ to ensure convergence. For each setting of $C$, report your training and test error. 
+		\item~[12 points] Use the schedule $\gamma_t = \frac{\gamma_0}{1+t}$. Report the training and test error for each setting of C. 
+		\item~[6 points] For each $C$, report the differences between the model parameters learned from the two learning rate schedules, as well as the differences between the training/test errors. What can you conclude? 
+	\end{enumerate}
+
+
+\item~[30 points] Now let us implement SVM in the dual domain. We use the same dataset, ``bank-note.zip''. You can utilize existing constrained optimization libraries. For Python, we recommend using ``scipy.optimize.minimize'', and you can learn how to use this API from the document at \url{https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.optimize.minimize.html}. We recommend using SLSQP to incorporate the equality constraints.
+For Matlab, we recommend using the internal function ``fmincon''; the document and examples are given at \url{https://www.mathworks.com/help/optim/ug/fmincon.html}.  
+For R, we recommend using the ``nloptr'' package with detailed documentation at \url{https://cran.r-project.org/web/packages/nloptr/nloptr.pdf}.
+
+\begin{enumerate}
+	\item ~[10 points] First, run your dual SVM learning algorithm with   $C$ in $\{\frac{100}{873}, \frac{500}{873}, \frac{700}{873}\}$. Recover the feature weights $\w$ and the bias $b$. Compare with the parameters learned with stochastic sub-gradient descent in the primal domain (in Problem 2) and the same settings of $C$, what can you observe? What do you conclude and why?
+	
+	\item~[15 points] Now, use Gaussian kernel in the dual form to implement the nonlinear SVM. Note that you need to modify both the objective function and the prediction. The Gaussian kernel is defined as follows:
+	\[
+	k(\x_i, \x_j) = \exp(-\frac{\|\x_i - \x_j\|^2}{\gamma}).
+	\]
+	Test $\gamma$ from $\{0.1, 0.5, 1,  5, 100\}$ and the hyperparameter $C$ from $\{ \frac{100}{873}, \frac{500}{873},  \frac{700}{873}\}$. List the training and test errors for the combinations of all the $\gamma$ and $C$ values. What is the best combination? Compared with linear SVM with the same settings of $C$, what do you observe? What do you conclude and why?  
+	
+	\item~[5 points] Following (b), for each setting of $\gamma$ and $C$, list the number of support vectors. When $C = \frac{500}{873}$, report the number of overlapped support vectors between consecutive values of $\gamma$, \ie how many support vectors are the same for $\gamma= 0.01$ and $\gamma = 0.1$; how many are the same for  $\gamma = 0.1$ and $\gamma = 0.5$, etc. What do you observe and conclude? Why?
+	
+	\item~[\textbf{Bonus}]~[10 points] Implement the kernel Perceptron algorithm you developed in Problem 8 (Section 1). Use Gaussian kernel and test $\gamma$ from $\{ 0.1, 0.5, 1, 5, 100\}$. List the training and test errors accordingly. Compared with the nonlinear SVM, what do you observe? what do you conclude and why?
+	
+\end{enumerate} 
+
+\end{enumerate}
+\end{document}
