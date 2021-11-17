@@ -15,6 +15,7 @@
 
 \newcommand{\bx}{{\bf x}}
 \newcommand{\bw}{{\bf w}}
+\newcommand{\Answer}{{\\\textbf{Answer: }}}
 
 \title{CS 5350/6350: Machine Learining \semester}
 \author{Homework \assignmentId}
@@ -80,6 +81,7 @@
 	As we discussed in the class, the slack variables $\{\xi_i\}$ are introduced to allow the training examples to break into the margin so that we can learn a linear classifier even when the data is not linearly separable. 
 	\begin{enumerate}
 		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ breaks into the margin? 
+		\Answer 
 		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ stays on or outside the margin? 
 		\item~[3 point] Why do we incorporate the term $C\cdot\sum_i \xi_i $ in the objective function? What will happen if we throw out this term?
 	\end{enumerate}
@@ -127,7 +129,7 @@
 \section{Practice [60 points + 10 bonus ]}
 \begin{enumerate}
 	\item~[2 Points] Update your machine learning library. Please check in your implementation of Perceptron, voted Perceptron and average Perceptron algorithms. Remember last time you created the folders ``Perceptron". You can commit your code into the corresponding folders now. Please also supplement README.md with concise descriptions about how to use your code to run these algorithms (how to call the command, set the parameters, etc). Please create a new folder ``SVM" in the same level as these folders.  
-
+	\Answer \url{https://github.com/nrtominaga/MachineLearning}
 %kernel perceptron, kernel svms
 	\item~[28 points] We will first implement SVM in the primal domain with stochastic sub-gradient descent. We will reuse the  dataset for Perceptron implementation, namely, ``bank-note.zip'' in Canvas. The features and labels are listed in the file ``classification/data-desc.txt''. The training data are stored in the file ``classification/train.csv'', consisting of $872$ examples. The test data are stored in ``classification/test.csv'', and comprise of $500$ examples. In both the training and test datasets, feature values and labels are separated by commas. Set the maximum epochs $T$ to 100. Don't forget to shuffle the training examples at the start of each epoch. Use the curve of the objective function (along with the number of updates) to diagnosis the convergence. Try the hyperparameter $C$ from $\{ \frac{100}{873}, \frac{500}{873,} \frac{700}{873}\}$. Don't forget to convert the labels to be in $\{1, -1\}$.  
 	\begin{enumerate}
