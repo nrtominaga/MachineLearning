@@ -15,7 +15,9 @@ primal_svm = SVM(training_file, testing_file, epochs, gamma, C, a=None, KfoldCV=
 where `training_file` is the location of your training file, `testing_file` is our test file, `epochs` is the number of epochs, `gamma` is our learning rate, and `C` is the C value.
 
 When `a = None`, we use the learning rate schedule:
+
 <img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\gamma_t&space;=&space;\frac{\gamma_0}{1&plus;t}" title="\gamma_t = \frac{\gamma_0}{1+t}" />
+
 Otherwise when `a` is defined we use the learning rate schedule: 
 <img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\gamma_t&space;=&space;\frac{\gamma_0}{1&plus;\frac{\gamma_0t}{a}}" title="\gamma_t = \frac{\gamma_0}{1+\frac{\gamma_0t}{a}}" />
 
