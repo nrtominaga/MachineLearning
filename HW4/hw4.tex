@@ -81,15 +81,17 @@
 	As we discussed in the class, the slack variables $\{\xi_i\}$ are introduced to allow the training examples to break into the margin so that we can learn a linear classifier even when the data is not linearly separable. 
 	\begin{enumerate}
 		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ breaks into the margin? 
-		\Answer 
+		\Answer When $\xi_i > 0$ is when the corresponding example can break into the margin
 		\item~[3 point] What values $\xi_i$ can take when the training example $\x_i$ stays on or outside the margin? 
+		\Answer When $\xi_i = 0$ is when the corresponding examples stays on/outside the margin.
 		\item~[3 point] Why do we incorporate the term $C\cdot\sum_i \xi_i $ in the objective function? What will happen if we throw out this term?
+		\Answer We incorporate the term because we want the $\xi_i$ values to be small.  When the values are small we will have less examples break the margin.  If we get rid of the term then this cannot be accomplished.
 	\end{enumerate}
 	
 	
 	\item~[6 points] Write down the dual optimization problem for soft SVMs.  
 	Please clearly indicate the constraints, and explain how it is derived. (Note: do NOT directly copy slides content, write down your own understanding.)
-	
+	\Answer 
 	
 	\item~[10 points] Continue with the dual form. Suppose after the training procedure, you have obtained the optimal parameters.
 	\begin{enumerate}
