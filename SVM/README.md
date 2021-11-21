@@ -48,4 +48,4 @@ error = dual_svm.error(error_type='testing', data=None)
 ```
 When `error_type = 'testing'/'training'` then we get our testing/training error respectively.  Otherwise we assume the `data = (examples, labels)` parameter has the examples we want to get the error. 
 
-To run the experiments simply run the `run.sh` file
+To run the experiments simply run the `run.sh` file.  The experiments take a long time (>1 hr) to run so the output is already stored in `output.txt` for grading convenience.
