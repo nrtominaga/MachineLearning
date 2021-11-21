@@ -34,14 +34,18 @@ training error = 0.008027522935779817
 testing error = 0.006
 
 Dual SVM w/ Linear Kernel
-C: 100/873Weights: [-9.43041781e-01 -6.51476467e-01 -7.33703799e-01 -4.09867147e-02
-  9.16299363e-12]Training error: 0.07110091743119266
+C: 100/873
+Weights: [-9.43041781e-01 -6.51476467e-01 -7.33703799e-01 -4.09867147e-02
+  9.16299363e-12]
+  Training error: 0.07110091743119266
 Testing error: 0.078
 C: 500/873Weights: [-1.56415374e+00 -1.01368397e+00 -1.18039031e+00 -1.56269346e-01
-  4.47983276e-12]Training error: 0.05619266055045872
+  4.47983276e-12]
+Training error: 0.05619266055045872
 Testing error: 0.066
 C: 700/873Weights: [-2.04277530e+00 -1.28024240e+00 -1.51335526e+00 -2.48235842e-01
- -7.57149739e-12]Training error: 0.05619266055045872
+ -7.57149739e-12]
+Training error: 0.05619266055045872
 Testing error: 0.062
 
 Dual SVM w/ Gaussian Kernel
@@ -107,6 +111,8 @@ Testing error: 0.0
 Number of support vectors: 99
 Best pair C: 500/873 gamma: 100
 
+Error is much better than in the linear kernel probably because the guassian kernel is able to make a classifier in a higher dimensional space.
+
 Number of overlapping supoort vectors:
 Number of overlapped vectors between 0.1 and 0.5: 731
 Number of overlapped vectors between 0.1 and 1: 556
@@ -118,3 +124,5 @@ Number of overlapped vectors between 0.5 and 100: 111
 Number of overlapped vectors between 1 and 5: 198
 Number of overlapped vectors between 1 and 100: 105
 Number of overlapped vectors between 5 and 100: 73
+
+It seems like in general that the higher the learning rate the smaller number of overlapping support vectors there are. Not entierly sure why.

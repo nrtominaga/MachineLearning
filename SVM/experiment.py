@@ -47,9 +47,9 @@ if __name__ == "__main__":
 
         file.write('\nDual SVM w/ Linear Kernel\n')
         for C in Cs:
-            file.write('C: ' + str(C))
+            file.write('C: ' + str(C) + '\n')
             svm = Dual_SVM(training_file, testing_file, float(Fraction(C)))
-            file.write('Weights: ' + str(svm.weights))
+            file.write('Weights: ' + str(svm.weights) + '\n')
             file.write('Training error: ' + str(svm.error('training'))+ '\n')
             file.write('Testing error: ' + str(svm.error('testing'))+ '\n')
 
@@ -80,6 +80,7 @@ if __name__ == "__main__":
                     sv_dict[g] = is_support_vector
 
         file.write('Best pair C: ' + str(smallest_error_C) + ' gamma: ' + str(smallest_error_gamma)+ '\n')
+        file.write('\nError is much better than in the linear kernel probably because the guassian kernel is able to make a classifier in a higher dimensional space.\n')
 
         file.write('\nNumber of overlapping supoort vectors:\n')
         for g_i, g1 in enumerate(gammas):
@@ -87,3 +88,5 @@ if __name__ == "__main__":
                 g2 = gammas[g_j]
                 numb_ov = np.sum(sv_dict[g1] & sv_dict[g2])
                 file.write('Number of overlapped vectors between ' + str(g1) + ' and ' + str(g2) + ': ' + str(numb_ov)+ '\n')
+
+        file.write('\n\nIt seems like in general that the higher the learning rate the smaller number of overlapping support vectors there are. Not entierly sure why.')
