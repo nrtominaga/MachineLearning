@@ -13,76 +13,77 @@ a_vals = [1, 5, 10, 50, 100, 500, 1000]
 gammas = [.005, .001, .0005, .0001]
 
 if __name__ == "__main__":
-    # print('5-fold CV') # perform 5 fold CV
-    # print('On a vals: ', a_vals)
-    # print('On gamma vals:', gammas)
-    # best_error = math.inf
-    # best_a = None
-    # best_gamma = None
-    # for a in a_vals:
-    #     for gamma in gammas:
-    #         ksvm = SVM(training_file, testing_file, 100, gamma, float(Fraction(Cs[1])), a, 5)
-    #         if ksvm.avg_error < best_error:
-    #             best_error = ksvm.avg_error
-    #             best_a = a
-    #             best_gamma = gamma
-    # print('Best a val: ', best_a)
-    # print('Best gamma val: ', best_gamma)
-    # print('Stochastic Sub-Gradient Descent\n') # 2
-    # print('Schedule Learning Rate: gamme_0/(1+(gamma_0/a)*t)') # part a
-    # for C in Cs:
-    #     svm = SVM(training_file, testing_file, 100, best_gamma, float(Fraction(C)), a=best_a)
-    #     print('C = ', C)
-    #     print('weights = ', svm.weights)
-    #     print('training error = ', SVM.error(svm.weights, svm.training_examples, svm.training_labels))
-    #     print('testing error = ', SVM.error(svm.weights, svm.testing_examples, svm.testing_labels))
-    # print('\nSchedule Learning Rate: gamme_0/(1+t)') # part b
-    # for C in Cs:
-    #     svm = SVM(training_file, testing_file, 100, best_gamma, float(Fraction(C)))
-    #     print('C = ', C)
-    #     print('weights = ', svm.weights)
-    #     print('training error = ', SVM.error(svm.weights, svm.training_examples, svm.training_labels))
-    #     print('testing error = ', SVM.error(svm.weights, svm.testing_examples, svm.testing_labels))
+    with open('output.txt', 'w+') as file:
+        file.write('5-fold CV' + '\n') # perform 5 fold CV
+        file.write('On a vals: ' +  str(a_vals)+ '\n')
+        file.write('On gamma vals: ' + str(gammas)+ '\n')
+        best_error = math.inf
+        best_a = None
+        best_gamma = None
+        for a in a_vals:
+            for gamma in gammas:
+                ksvm = SVM(training_file, testing_file, 100, gamma, float(Fraction(Cs[1])), a, 5)
+                if ksvm.avg_error < best_error:
+                    best_error = ksvm.avg_error
+                    best_a = a
+                    best_gamma = gamma
+        file.write('Best a val: ' + str(best_a)+ '\n')
+        file.write('Best gamma val: ' + str(best_gamma) + '\n')
+        file.write('\n' + 'Stochastic Sub-Gradient Descent\n') # 2
+        file.write('Schedule Learning Rate: gamme_0/(1+(gamma_0/a)*t)'+ '\n') # part a
+        for C in Cs:
+            svm = SVM(training_file, testing_file, 100, best_gamma, float(Fraction(C)), a=best_a)
+            file.write('C = ' + str(C)+ '\n')
+            file.write('weights = ' + str(svm.weights)+ '\n')
+            file.write('training error = ' + str(SVM.error(svm.weights, svm.training_examples, svm.training_labels))+ '\n')
+            file.write('testing error = ' + str(SVM.error(svm.weights, svm.testing_examples, svm.testing_labels))+ '\n')
+        file.write('\nSchedule Learning Rate: gamme_0/(1+t)'+ '\n') # part b
+        for C in Cs:
+            svm = SVM(training_file, testing_file, 100, best_gamma, float(Fraction(C)))
+            file.write('C = ' + str(C)+ '\n')
+            file.write('weights = ' + str(svm.weights)+ '\n')
+            file.write('training error = ' +  str(SVM.error(svm.weights, svm.training_examples, svm.training_labels))+ '\n')
+            file.write('testing error = ' + str(SVM.error(svm.weights, svm.testing_examples, svm.testing_labels))+ '\n')
 
-    # print('\nDual SVM w/ Linear Kernel\n')
-    # for C in Cs:
-    #     print('C: ', C)
-    #     svm = Dual_SVM(training_file, testing_file, float(Fraction(C)))
-    #     print('Weights: ', svm.weights)
-    #     print('Training error: ', svm.error('training'))
-    #     print('Testing error: ', svm.error('testing'))
+        file.write('\nDual SVM w/ Linear Kernel\n')
+        for C in Cs:
+            file.write('C: ' + str(C))
+            svm = Dual_SVM(training_file, testing_file, float(Fraction(C)))
+            file.write('Weights: ' + str(svm.weights))
+            file.write('Training error: ' + str(svm.error('training'))+ '\n')
+            file.write('Testing error: ' + str(svm.error('testing'))+ '\n')
 
-    gammas = [0.1, 0.5, 1, 5, 100]
-    print('\nDual SVM w/ Gaussian Kernel\n')
-    smallest_testing_error = math.inf
-    smallest_error_gamma = gammas[0]
-    smallest_error_C = Cs[0]
-    sv_dict = {}
-    for C in Cs:
-        for g in gammas:
-            print('C: ', C, 'gamma: ', g)
-            svm = Dual_SVM(training_file, testing_file, float(Fraction(C)), g)
-            svm.alphas[np.isclose(svm.alphas, 0)] = 0
-            print('Weights: ', svm.weights)
-            print('Training error: ', svm.error('training'))
-            testing_error = svm.error('testing')
-            print('Testing error: ', testing_error)
-            if testing_error < smallest_testing_error:
-                smallest_testing_error = testing_error
-                smallest_error_gamma = g
-                smallest_error_C = C
+        gammas = [0.1, 0.5, 1, 5, 100]
+        file.write('\nDual SVM w/ Gaussian Kernel\n')
+        smallest_testing_error = math.inf
+        smallest_error_gamma = gammas[0]
+        smallest_error_C = Cs[0]
+        sv_dict = {}
+        for C in Cs:
+            for g in gammas:
+                file.write('C: ' + str(C) + ' gamma: ' + str(g)+ '\n')
+                svm = Dual_SVM(training_file, testing_file, float(Fraction(C)), g)
+                svm.alphas[np.isclose(svm.alphas, 0)] = 0
+                file.write('Training error: ' + str(svm.error('training'))+ '\n')
+                testing_error = svm.error('testing')
+                file.write('Testing error: ' + str(testing_error)+ '\n')
+                if testing_error < smallest_testing_error:
+                    smallest_testing_error = testing_error
+                    smallest_error_gamma = g
+                    smallest_error_C = C
 
-            is_support_vector = svm.alphas > 0
-            print('Number of support vectors:', np.sum(is_support_vector))
-
-            if C == '500/873':
                 is_support_vector = svm.alphas > 0
-                sv_dict[g] = is_support_vector
+                file.write('Number of support vectors: ' + str(np.sum(is_support_vector))+ '\n')
 
-    print('Best pair C: ', smallest_error_C, ' gamma: ', smallest_error_gamma)
+                if C == '500/873':
+                    is_support_vector = svm.alphas > 0
+                    sv_dict[g] = is_support_vector
 
-    print('\nNumber of overlapping supoort vectors:')
-    for g_i, g1 in enumerate(gammas):
-        for _, g2 in enumerate(gammas, g_i + 1):
-            numb_ov = np.sum(sv_dict[g1] & sv_dict[g2])
-            print('Number of overlapped vectors between', g1, 'and', g2 , ':', numb_ov)
+        file.write('Best pair C: ' + str(smallest_error_C) + ' gamma: ' + str(smallest_error_gamma)+ '\n')
+
+        file.write('\nNumber of overlapping supoort vectors:\n')
+        for g_i, g1 in enumerate(gammas):
+            for g_j in range(g_i + 1, len(gammas)):
+                g2 = gammas[g_j]
+                numb_ov = np.sum(sv_dict[g1] & sv_dict[g2])
+                file.write('Number of overlapped vectors between ' + str(g1) + ' and ' + str(g2) + ': ' + str(numb_ov)+ '\n')

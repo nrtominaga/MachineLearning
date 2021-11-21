@@ -80,6 +80,7 @@ class Dual_SVM:
     def __init__(self, training_file, testing_file, C, gamma=None):
         self.training_data = open_data(training_file) # get our train ex & labels
         self.testing_data = open_data(testing_file) # test ex & labels
+        self.gamma = gamma
         self.weights, self.alphas = Dual_SVM.dualsvm(self.training_data, C, gamma) # run dual svm
 
     def error(self, error_type='testing', data=None):
@@ -90,7 +91,18 @@ class Dual_SVM:
         else:
             assert data is not None
             X, y = data
-        guesses = X @ self.weights
+        guesses = np.zeros(y.shape)
+        if self.gamma != None:
+            tex, tlabels = self.training_data
+            for x_index, x in enumerate(X):
+                guess = 0
+                for i, x_i in enumerate(tex):
+                    y_i = tlabels[i]
+                    alpha_i = self.alphas[i]
+                    guess += y_i * alpha_i * np.exp(- (np.linalg.norm(x_i - x) ** 2)/self.gamma)
+                guesses[x_index] = -1 if guess < 0 else 1
+        else:
+            guesses = X @ self.weights
         guesses[guesses < 0] = -1
         guesses[guesses >= 0] = 1
         return np.sum(guesses != y)/X.shape[0] # error

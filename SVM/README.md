@@ -22,7 +22,7 @@ Otherwise when `a` is defined we use the learning rate schedule:
 
 <img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\gamma_t&space;=&space;\frac{\gamma_0}{1&plus;\frac{\gamma_0t}{a}}" title="\gamma_t = \frac{\gamma_0}{1+\frac{\gamma_0t}{a}}" />
 
-When `KfoldCV > 1` we will run k-fold cross validation rather than training on the full dataset.  The average validation errors can be accessed through `primal_svm.avg_error`.
+When `KfoldCV > 1` we will run k-fold cross validation rather than training on the full dataset therefore no weights are learned.  The average validation errors can be accessed through `primal_svm.avg_error`.
 
 To get the error for a dataset e.g. the testing dataset you can run:
 ```python

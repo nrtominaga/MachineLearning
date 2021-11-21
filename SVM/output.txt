@@ -1,0 +1,104 @@
+5-fold CV
+On a vals: [1, 5, 10, 50, 100, 500, 1000]
+On gamma vals: [0.005, 0.001, 0.0005, 0.0001]
+Best a val: 500
+Best gamma val: 0.0001
+
+Stochastic Sub-Gradient Descent
+Schedule Learning Rate: gamme_0/(1+(gamma_0/a)*t)
+C = 100/873
+weights = [-0.49466728 -0.31403994 -0.31979026 -0.03769012  0.5693462 ]
+training error = 0.014908256880733946
+testing error = 0.012
+C = 500/873
+weights = [-2.61532353 -1.53421848 -1.66571247 -0.2409843   2.89667518]
+training error = 0.011467889908256881
+testing error = 0.012
+C = 700/873
+weights = [-4.02555819 -2.22801355 -2.43524981 -0.72465899  3.77567199]
+training error = 0.013761467889908258
+testing error = 0.016
+
+Schedule Learning Rate: gamme_0/(1+t)
+C = 100/873
+weights = [-0.18990709 -0.10056541 -0.13085833 -0.0162558   0.18475201]
+training error = 0.008027522935779817
+testing error = 0.006
+C = 500/873
+weights = [-1.16492227 -0.61086894 -0.79345011 -0.10062621  1.13414947]
+training error = 0.006880733944954129
+testing error = 0.006
+C = 700/873
+weights = [-1.52146821 -0.79786864 -1.03550815 -0.13449449  1.47686446]
+training error = 0.006880733944954129
+testing error = 0.006
+
+Dual SVM w/ Linear Kernel
+C: 100/873Weights: [-9.43041781e-01 -6.51476467e-01 -7.33703799e-01 -4.09867147e-02
+  9.16299363e-12]Training error: 0.07110091743119266
+Testing error: 0.078
+C: 500/873Weights: [-1.56415374e+00 -1.01368397e+00 -1.18039031e+00 -1.56269346e-01
+  4.47983276e-12]Training error: 0.05619266055045872
+Testing error: 0.066
+C: 700/873Weights: [-2.04277530e+00 -1.28024240e+00 -1.51335526e+00 -2.48235842e-01
+ -7.57149739e-12]Training error: 0.05619266055045872
+Testing error: 0.062
+
+Dual SVM w/ Gaussian Kernel
+C: 100/873 gamma: 0.1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 869
+C: 100/873 gamma: 0.5
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 825
+C: 100/873 gamma: 1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 805
+C: 100/873 gamma: 5
+Training error: 0.008027522935779817
+Testing error: 0.006
+Number of support vectors: 442
+C: 100/873 gamma: 100
+Training error: 0.0034403669724770644
+Testing error: 0.004
+Number of support vectors: 290
+C: 500/873 gamma: 0.1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 869
+C: 500/873 gamma: 0.5
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 731
+C: 500/873 gamma: 1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 556
+C: 500/873 gamma: 5
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 208
+C: 500/873 gamma: 100
+Training error: 0.0
+Testing error: 0.0
+Number of support vectors: 116
+C: 700/873 gamma: 0.1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 868
+C: 700/873 gamma: 0.5
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 694
+C: 700/873 gamma: 1
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 528
+C: 700/873 gamma: 5
+Training error: 0.0
+Testing error: 0.002
+Number of support vectors: 193
+C: 700/873 gamma: 100
