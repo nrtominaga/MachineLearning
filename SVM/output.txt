@@ -1,36 +1,36 @@
 5-fold CV
 On a vals: [1, 5, 10, 50, 100, 500, 1000]
 On gamma vals: [0.005, 0.001, 0.0005, 0.0001]
-Best a val: 500
+Best a val: 5
 Best gamma val: 0.0001
 
 Stochastic Sub-Gradient Descent
 Schedule Learning Rate: gamme_0/(1+(gamma_0/a)*t)
 C = 100/873
-weights = [-0.49466728 -0.31403994 -0.31979026 -0.03769012  0.5693462 ]
-training error = 0.014908256880733946
-testing error = 0.012
-C = 500/873
-weights = [-2.61532353 -1.53421848 -1.66571247 -0.2409843   2.89667518]
+weights = [-0.50949517 -0.33422976 -0.35612088 -0.04770183  0.55933892]
 training error = 0.011467889908256881
 testing error = 0.012
+C = 500/873
+weights = [-2.58283327 -1.55541741 -1.68523859 -0.39699332  2.99596592]
+training error = 0.011467889908256881
+testing error = 0.01
 C = 700/873
-weights = [-4.02555819 -2.22801355 -2.43524981 -0.72465899  3.77567199]
-training error = 0.013761467889908258
-testing error = 0.016
+weights = [-3.41185721 -2.31211795 -2.03181562 -0.46514977  3.77561248]
+training error = 0.022935779816513763
+testing error = 0.018
 
 Schedule Learning Rate: gamme_0/(1+t)
 C = 100/873
-weights = [-0.18990709 -0.10056541 -0.13085833 -0.0162558   0.18475201]
-training error = 0.008027522935779817
+weights = [-0.23599766 -0.12432555 -0.15955376 -0.02073935  0.22831744]
+training error = 0.009174311926605505
 testing error = 0.006
 C = 500/873
-weights = [-1.16492227 -0.61086894 -0.79345011 -0.10062621  1.13414947]
-training error = 0.006880733944954129
-testing error = 0.006
+weights = [-1.09678721 -0.57180505 -0.74496204 -0.09263897  1.06345562]
+training error = 0.009174311926605505
+testing error = 0.008
 C = 700/873
-weights = [-1.52146821 -0.79786864 -1.03550815 -0.13449449  1.47686446]
-training error = 0.006880733944954129
+weights = [-1.52760458 -0.80239318 -1.0394724  -0.13257198  1.47286909]
+training error = 0.008027522935779817
 testing error = 0.006
 
 Dual SVM w/ Linear Kernel
@@ -102,3 +102,19 @@ Training error: 0.0
 Testing error: 0.002
 Number of support vectors: 193
 C: 700/873 gamma: 100
+Training error: 0.0
+Testing error: 0.0
+Number of support vectors: 99
+Best pair C: 500/873 gamma: 100
+
+Number of overlapping supoort vectors:
+Number of overlapped vectors between 0.1 and 0.5: 731
+Number of overlapped vectors between 0.1 and 1: 556
+Number of overlapped vectors between 0.1 and 5: 208
+Number of overlapped vectors between 0.1 and 100: 116
+Number of overlapped vectors between 0.5 and 1: 554
+Number of overlapped vectors between 0.5 and 5: 206
+Number of overlapped vectors between 0.5 and 100: 111
+Number of overlapped vectors between 1 and 5: 198
+Number of overlapped vectors between 1 and 100: 105
+Number of overlapped vectors between 5 and 100: 73
